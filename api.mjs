@@ -4,36 +4,8 @@ import cors from "cors";
 
 const hostname = "127.0.0.1"; // valor do ip local (127.0.0.1 ou localhost)
 const port = 3000; // porta lógica de execução
-const carros = [
-  {
-    id: 1,
-    modelo: "Uno",
-    ano: "2023",
-    cor: "vermelho",
-    placa: "OON7895",
-    vendido: false,
-    imagem:
-      "https://cdn.motor1.com/images/mgl/2NO4RB/s1/visual-do-fiat-uno-ciao-traz-detalhes-na-lateral.webp",
-  },
-  {
-    id: 2,
-    modelo: "gol",
-    ano: "2023",
-    cor: "branco",
-    placa: "XXX2024",
-    vendido: false,
-    imagem: "",
-  },
-  {
-    id: 3,
-    modelo: "ka",
-    ano: "2023",
-    cor: "preto",
-    placa: "YYY2020",
-    vendido: false,
-    imagem: "",
-  },
-];
+const carros = []; 
+let idAtual = 0;
 
 // Criação do servidor web
 const app = express();
@@ -44,14 +16,21 @@ app.get("/", function (req, res) {
   res.send("API venda carros");
 });
 
+// GET busca carros cadastrados
 app.get("/carros", function (req, res) {
   res.json(carros);
 });
 
+// POST cadastra novo carro
 app.post("/carros", function (req, res) {
-  carros.push(req.body);
+  const novoCarro = req.body;
+  novoCarro.id = idAtual++;
+  carros.push(novoCarro);
   res.send("Carro salvo com sucesso!!");
 });
+
+// PUT atualiza carro já cadastrado
+// DELETE remove carro já cadastrado
 
 app.listen(port, function () {
   console.log("API iniciada");
