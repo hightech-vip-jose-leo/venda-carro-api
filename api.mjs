@@ -30,7 +30,25 @@ app.post("/carros", function (req, res) {
 });
 
 // PUT atualiza carro já cadastrado
+app.put("/carros", function (req, res) {
+  const carroAtualizado = req.body;
+  const i = carros.findIndex(function(carroDaVez) {
+    return carroDaVez.id == carroAtualizado.id
+  });
+  carros[i] = carroAtualizado;
+  res.send("Carro atualizado com sucesso!!");
+})
+
 // DELETE remove carro já cadastrado
+app.delete("/carros/:id", function(req, res) {
+  const id = req.params.id;
+  // validar id de carro inválido
+  const i = carros.findIndex(function(carroDaVez) {
+    return carroDaVez.id == id;
+  });
+  carros.splice(i, 1);
+  res.send(`Carro id: ${id} removido com sucesso!!`);
+})
 
 app.listen(port, function () {
   console.log("API iniciada");
