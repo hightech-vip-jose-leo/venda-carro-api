@@ -46,8 +46,13 @@ app.delete("/carros/:id", function(req, res) {
   const i = carros.findIndex(function(carroDaVez) {
     return carroDaVez.id == id;
   });
-  carros.splice(i, 1);
-  res.send(`Carro id: ${id} removido com sucesso!!`);
+
+  if(i > -1) {
+    carros.splice(i, 1);
+    res.send(`Carro id: ${id} removido com sucesso!!`);
+  } else {
+    res.status(400).send(`Carro de id: ${id} não foi encontrado`);
+  }
 })
 
 app.listen(port, function () {
