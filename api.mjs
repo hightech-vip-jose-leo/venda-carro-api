@@ -21,6 +21,21 @@ app.get("/carros", function (req, res) {
   res.json(carros);
 });
 
+// GET busca carro por id
+app.get("/carros/:id", function(req, res) {
+  const id = req.params.id
+
+  const i = carros.findIndex(function (carroDaVez) {
+    return carroDaVez.id == id;
+  })
+
+  if(i > -1) {
+    res.json(carros[i])
+  } else {
+    res.status(404).send(`Carro de id: ${id} não foi encontrado`)
+  }
+})
+
 // POST cadastra novo carro
 app.post("/carros", function (req, res) {
   const novoCarro = req.body;
